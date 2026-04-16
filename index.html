@@ -56,6 +56,16 @@ header h1{
  opacity:0;
 }
 
+/* 👉 FIX MOBILE BANNER */
+@media (max-width:768px){
+ header h1{
+  font-size:28px;
+  text-align:center;
+  padding:0 10px;
+ }
+}
+
+/* animation */
 @keyframes fadeZoom{
  0%{opacity:0; transform:scale(0.8) translateY(20px);}
  100%{opacity:1; transform:scale(1) translateY(0);}
@@ -139,6 +149,16 @@ nav a{
  cursor:pointer;
  transition:0.4s;
  position:relative;
+}
+
+/* 👉 FIX MOBILE: 2 CARD / HÀNG */
+@media (max-width:768px){
+ .members{
+  gap:15px;
+ }
+ .card{
+  width:45%;
+ }
 }
 
 .card img{
