@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hành Trình Xưng Bá Của Ta</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;500;700&family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
+
+<style>
+body{
+ margin:0;
+ font-family:'Be Vietnam Pro', sans-serif;
+ background:linear-gradient(to bottom,#0f1f1a,#1b3a2f);
+ color:#e8fff3;
+ overflow-x:hidden;
+}
+
+/* PAGE */
+.page{
+ display:none;
+ padding:30px;
+ opacity:0;
+ transform:translateY(20px);
+ transition:0.5s;
+}
+.page.active{
+ display:block;
+ opacity:1;
+ transform:translateY(0);
+}
+
+/* HEADER */
+header{
+ height:180px;
+ background:url('images/banner.jpg') center/cover;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ position:relative;
+}
+header::after{
+ content:"";
+ position:absolute;
+ inset:0;
+ background:linear-gradient(to bottom,rgba(0,0,0,0.7),rgba(0,0,0,0.4));
+}
+header h1{
+ position:relative;
+ color:white;
+ font-family:'Playfair Display', serif;
+}
+
+/* NAV */
+nav{
+ display:flex;
+ justify-content:center;
+ gap:30px;
+ background:#163d2f;
+ padding:12px;
+}
+nav a{
+ cursor:pointer;
+}
+
+/* HOME */
+.home-box{
+ max-width:700px;
+ margin:auto;
+ background:rgba(255,255,255,0.05);
+ padding:30px;
+ border-radius:12px;
+ backdrop-filter:blur(10px);
+}
+
+.line{
+ opacity:0;
+ transform:translateY(20px);
+ animation:fadeUp 1s forwards;
+ font-size:20px;
+}
+@keyframes fadeUp{
+ to{opacity:1;transform:translateY(0)}
+}
+
+/* ORIGIN */
+#origin{
+ position:relative;
+ min-height:80vh;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+}
+#origin::before{
+ content:"";
+ position:absolute;
+ inset:0;
+ background:url('images/songuyen.jpg') center/cover;
+ filter:blur(6px) brightness(0.5);
+}
+
+.origin-box{
+ position:relative;
+ text-align:center;
+}
+
+.origin-line{
+ opacity:0;
+ transform:translateY(30px);
+ animation:originFade 1.2s forwards;
+ font-size:20px;
+}
+
+.origin-line:nth-child(1){animation-delay:0.5s}
+.origin-line:nth-child(2){animation-delay:1.5s}
+.origin-line:nth-child(3){animation-delay:2.5s}
+
+.highlight{
+ color:#ffd700;
+ font-size:24px;
+}
+
+@keyframes originFade{
+ to{opacity:1;transform:translateY(0)}
+}
+
+/* MEMBERS */
+.members{
+ display:flex;
+ justify-content:center;
+ gap:30px;
+ flex-wrap:wrap;
+}
+
+.card{
+ width:220px;
+ cursor:pointer;
+ transition:0.4s;
+ position:relative;
+}
+
+.card img{
+ width:100%;
+ border-radius:10px;
+ opacity:0;
+ transition:0.6s;
+}
+.card img.loaded{
+ opacity:1;
+}
+
+.card:hover{
+ transform:translateY(-12px) scale(1.06);
+ box-shadow:0 0 40px rgba(0,255,180,0.8);
+}
+
+.info{
+ position:absolute;
+ inset:0;
+ background:rgba(0,0,0,0.6);
+ color:white;
+ display:flex;
+ flex-direction:column;
+ justify-content:center;
+ align-items:center;
+ opacity:0;
+ transition:0.3s;
+ border-radius:10px;
+}
+.card:hover .info{
+ opacity:1;
+}
+.card.active .info{
+ opacity:1;
+}
+
+/* DETAIL */
+#detail{
+ min-height:100vh;
+ display:flex;
+ justify-content:center;
+ align-items:center;
+}
+.detail-box{
+ background:rgba(255,255,255,0.9);
+ padding:30px;
+ border-radius:12px;
+ text-align:center;
+}
+
+/* PARTICLE + SMOKE */
+canvas{
+ position:fixed;
+ top:0;
+ left:0;
+ pointer-events:none;
+}
+#smoke{
+ opacity:0.25;
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="particle"></canvas>
+<canvas id="smoke"></canvas>
+
+<header>
+ <h1>Hành Trình Xưng Bá Của Ta</h1>
+</header>
+
+<nav>
+ <a onclick="goPage('home')">Trang chủ</a>
+ <a onclick="goPage('origin')">Sơ nguyên</a>
+ <a onclick="goPage('members')">Thành viên</a>
+</nav>
+
+<!-- HOME -->
+<div id="home" class="page active">
+ <div class="home-box" id="homeText"></div>
+</div>
+
+<!-- ORIGIN -->
+<div id="origin" class="page">
+ <div class="origin-box">
+  <p class="origin-line">Mười năm trước may mắn đã gặp các vị</p>
+  <p class="origin-line">Mười năm sau may mắn được gặp các vị</p>
+  <p class="origin-line highlight">Đều là vinh hạnh của ta!</p>
+ </div>
+</div>
+
+<!-- MEMBERS -->
+<div id="members" class="page">
+ <div class="members">
+
+  <div class="card" onclick="handleCard(this,1)">
+   <img src="./images/nv1.jpg">
+   <div class="info">
+    <b>Sở Dĩ</b>
+    <p>Xưng bá thiên hạ</p>
+   </div>
+  </div>
+
+  <div class="card" onclick="handleCard(this,2)">
+   <img src="./images/nv2.jpg">
+   <div class="info">
+    <b>Tạ Thừa Cảnh</b>
+    <p>Tùy tâm mà sống</p>
+   </div>
+  </div>
+
+ </div>
+</div>
+
+<div id="detail" class="page"></div>
+
+<script>
+
+/* TEXT */
+const text=[
+"Hồng trần muôn sắc",
+"Mây nước đường xa",
+"Nay đứng dưới trời cao đất rộng",
+"Chỉ mong không thẹn với minh nguyệt trong lòng",
+"Ta, từng là một thiếu niên"
+]
+
+let box=document.getElementById("homeText")
+text.forEach((t,i)=>{
+ let p=document.createElement("p")
+ p.className="line"
+ p.style.animationDelay=i+"s"
+ p.innerText=t
+ box.appendChild(p)
+})
+
+/* NAV */
+function show(id){
+ let pages=document.querySelectorAll('.page')
+ pages.forEach(p=>p.classList.remove('active'))
+
+ let el=document.getElementById(id)
+
+ setTimeout(()=>{
+   pages.forEach(p=>p.style.display='none')
+   el.style.display='block'
+
+   requestAnimationFrame(()=>{
+     el.classList.add('active')
+     window.scrollTo({top:0,behavior:"smooth"})
+   })
+ },200)
+}
+
+function goPage(page){
+ history.pushState({page:page},"","#"+page)
+ show(page)
+}
+
+/* CARD */
+function handleCard(el,id){
+ if(window.innerWidth<768){
+   el.classList.toggle('active')
+ }else{
+   openDetail(id)
+ }
+}
+
+/* DETAIL */
+function openDetail(id){
+ let data={
+ 1:{name:"Sở Dĩ",img:"./images/nv1.jpg"},
+ 2:{name:"Tạ Thừa Cảnh",img:"./images/nv2.jpg"}
+ }
+
+ let m=data[id]
+
+ document.getElementById("detail").innerHTML=`
+ <div class="detail-box">
+  <h2>${m.name}</h2>
+  <img src="${m.img}" width="200">
+ </div>
+ `
+
+ history.pushState({page:"member-"+id},"","#member-"+id)
+ show("detail")
+}
+
+/* BACK */
+window.onpopstate=function(e){
+ if(e.state){
+   if(e.state.page.startsWith("member-")){
+     openDetail(e.state.page.split("-")[1])
+   }else{
+     show(e.state.page)
+   }
+ }else show("home")
+}
+
+/* IMAGE LOAD FIX */
+document.querySelectorAll("img").forEach(img=>{
+ img.onload=()=>img.classList.add("loaded")
+ img.onerror=()=>{
+  img.src="https://via.placeholder.com/300x400"
+  img.classList.add("loaded")
+ }
+})
+
+/* PARTICLE */
+let c=document.getElementById("particle")
+let ctx=c.getContext("2d")
+
+function resize(){
+ c.width=window.innerWidth
+ c.height=window.innerHeight
+}
+resize()
+
+let p=[]
+for(let i=0;i<50;i++){
+ p.push({x:Math.random()*c.width,y:Math.random()*c.height,v:Math.random()*0.5+0.2})
+}
+
+function draw(){
+ ctx.clearRect(0,0,c.width,c.height)
+ ctx.fillStyle="rgba(100,255,150,0.5)"
+ p.forEach(i=>{
+  ctx.fillRect(i.x,i.y,2,2)
+  i.y-=i.v
+  if(i.y<0)i.y=c.height
+ })
+ requestAnimationFrame(draw)
+}
+draw()
+
+/* SMOKE */
+let smoke=document.getElementById("smoke")
+let sctx=smoke.getContext("2d")
+
+function resizeSmoke(){
+ smoke.width=window.innerWidth
+ smoke.height=window.innerHeight
+}
+resizeSmoke()
+
+let smokes=[]
+for(let i=0;i<25;i++){
+ smokes.push({
+  x:Math.random()*smoke.width,
+  y:Math.random()*smoke.height,
+  r:Math.random()*40+20,
+  v:Math.random()*0.3+0.1
+ })
+}
+
+function drawSmoke(){
+ sctx.clearRect(0,0,smoke.width,smoke.height)
+
+ smokes.forEach(s=>{
+  let g=sctx.createRadialGradient(s.x,s.y,0,s.x,s.y,s.r)
+  g.addColorStop(0,"rgba(255,255,255,0.15)")
+  g.addColorStop(1,"transparent")
+
+  sctx.fillStyle=g
+  sctx.beginPath()
+  sctx.arc(s.x,s.y,s.r,0,Math.PI*2)
+  sctx.fill()
+
+  s.y-=s.v
+  if(s.y<0){
+    s.y=smoke.height
+    s.x=Math.random()*smoke.width
+  }
+ })
+
+ requestAnimationFrame(drawSmoke)
+}
+drawSmoke()
+
+</script>
+
+</body>
+</html>
