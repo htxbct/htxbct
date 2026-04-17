@@ -147,32 +147,66 @@ nav a{
  cursor:pointer;
  transition:0.4s;
  position:relative;
+ border-radius:12px;
+ overflow:hidden;
 }
 
-@media (max-width:768px){
- .members{
-  gap:15px;
- }
- .card{
-  width:45%;
- }
+/* Skeleton */
+.skeleton{
+ position:absolute;
+ inset:0;
+ border-radius:12px;
+ background:linear-gradient(90deg,#1b3a2f,#244c3d,#1b3a2f);
+ background-size:200% 100%;
+ animation:skeleton 1.2s infinite;
+ z-index:2;
 }
 
+@keyframes skeleton{
+ 0%{background-position:200% 0}
+ 100%{background-position:-200% 0}
+}
+
+/* Image */
 .card img{
  width:100%;
  border-radius:10px;
  opacity:0;
  transition:0.6s;
+ display:block;
 }
 .card img.loaded{
  opacity:1;
 }
 
-.card:hover{
- transform:translateY(-12px) scale(1.06);
- box-shadow:0 0 40px rgba(0,255,180,0.8);
+/* Hover tu tiên */
+.card::before{
+ content:"";
+ position:absolute;
+ inset:0;
+ border-radius:12px;
+ background:linear-gradient(120deg,transparent,rgba(0,255,180,0.6),transparent);
+ opacity:0;
 }
 
+.card:hover::before{
+ opacity:1;
+ animation:shine 1.5s linear infinite;
+}
+
+@keyframes shine{
+ 0%{transform:translateX(-100%)}
+ 100%{transform:translateX(100%)}
+}
+
+.card:hover{
+ transform:translateY(-12px) scale(1.06);
+ box-shadow:
+ 0 0 30px rgba(0,255,180,0.8),
+ 0 0 60px rgba(0,255,180,0.4);
+}
+
+/* Info */
 .info{
  position:absolute;
  inset:0;
@@ -206,16 +240,12 @@ nav a{
  max-width:600px;
 }
 
-/* SMOKE */
+/* CANVAS */
 canvas{
  position:fixed;
  top:0;
  left:0;
  pointer-events:none;
-}
-#smoke{
- opacity:0.4;
- filter:blur(10px);
 }
 </style>
 </head>
@@ -276,33 +306,40 @@ canvas{
 <div id="members" class="page">
  <div class="members">
 
+  <!-- giữ nguyên nội dung, chỉ thêm skeleton + lazy -->
   <div class="card" onclick="openDetail(1)">
-   <img src="./images/nv1.jpg">
+   <div class="skeleton"></div>
+   <img src="./images/nv1.jpg" loading="lazy">
    <div class="info"><b>Sở Dĩ</b><p>Thân ở hồng trần</p></div>
   </div>
 
   <div class="card" onclick="openDetail(2)">
-   <img src="./images/nv2.jpg">
+   <div class="skeleton"></div>
+   <img src="./images/nv2.jpg" loading="lazy">
    <div class="info"><b>Tạ Thừa Cảnh</b><p>Tùy tâm sở dục</p></div>
   </div>
 
   <div class="card" onclick="openDetail(3)">
-   <img src="./images/nv3.jpg">
+   <div class="skeleton"></div>
+   <img src="./images/nv3.jpg" loading="lazy">
    <div class="info"><b>Đề Quý Khôi</b><p>Thương nhau mà sống</p></div>
   </div>
 
   <div class="card" onclick="openDetail(4)">
-   <img src="./images/nv4.jpg">
+   <div class="skeleton"></div>
+   <img src="./images/nv4.jpg" loading="lazy">
    <div class="info"><b>Hoàng Mân Chi</b><p>Lan tâm tuệ cốt</p></div>
   </div>
 
   <div class="card" onclick="openDetail(5)">
-   <img src="./images/nv5.jpg">
+   <div class="skeleton"></div>
+   <img src="./images/nv5.jpg" loading="lazy">
    <div class="info"><b>Lý Thừa Đức</b><p>326 anh có vợ rồi</p></div>
   </div>
 
   <div class="card" onclick="openDetail(6)">
-   <img src="./images/nv6.jpg">
+   <div class="skeleton"></div>
+   <img src="./images/nv6.jpg" loading="lazy">
    <div class="info"><b>Tham Nguyên</b><p>Haha</p></div>
   </div>
 
@@ -406,6 +443,65 @@ window.addEventListener("load", () => {
    show(hash)
  }
 })
+
+/* FIX ẢNH + SKELETON */
+document.querySelectorAll('.card').forEach(card=>{
+ let img = card.querySelector("img")
+ let skeleton = card.querySelector(".skeleton")
+
+ function done(){
+   img.classList.add("loaded")
+   if(skeleton) skeleton.style.display="none"
+ }
+
+ if(img.complete){
+   done()
+ }else{
+   img.addEventListener("load", done)
+   img.addEventListener("error", ()=>{
+     img.src="https://via.placeholder.com/300x400?text=Image"
+     done()
+   })
+ }
+})
+
+/* CANVAS TỐI ƯU */
+const canvas=document.getElementById("particle")
+const ctx=canvas.getContext("2d")
+
+canvas.width=innerWidth
+canvas.height=innerHeight
+
+let particles=[]
+for(let i=0;i<40;i++){
+ particles.push({
+  x:Math.random()*canvas.width,
+  y:Math.random()*canvas.height,
+  r:Math.random()*2,
+  d:Math.random()*1
+ })
+}
+
+let last=0
+function draw(t){
+ if(t-last<30) return requestAnimationFrame(draw)
+ last=t
+
+ ctx.clearRect(0,0,canvas.width,canvas.height)
+
+ ctx.fillStyle="rgba(0,255,180,0.3)"
+ particles.forEach(p=>{
+  ctx.beginPath()
+  ctx.arc(p.x,p.y,p.r,0,Math.PI*2)
+  ctx.fill()
+
+  p.y+=p.d
+  if(p.y>canvas.height) p.y=0
+ })
+
+ requestAnimationFrame(draw)
+}
+requestAnimationFrame(draw)
 
 </script>
 
