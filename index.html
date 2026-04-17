@@ -247,6 +247,18 @@ canvas{
  left:0;
  pointer-events:none;
 }
+
+/* ===== MOBILE: 2 CARD / HÀNG ===== */
+@media (max-width:768px){
+ .members{
+  gap:12px;
+  padding:0 10px;
+ }
+
+ .card{
+  width:calc(50% - 10px);
+ }
+}
 </style>
 </head>
 
@@ -306,7 +318,6 @@ canvas{
 <div id="members" class="page">
  <div class="members">
 
-  <!-- giữ nguyên nội dung, chỉ thêm skeleton + lazy -->
   <div class="card" onclick="openDetail(1)">
    <div class="skeleton"></div>
    <img src="./images/nv1.jpg" loading="lazy">
@@ -473,6 +484,7 @@ canvas.width=innerWidth
 canvas.height=innerHeight
 
 let particles=[]
+
 for(let i=0;i<40;i++){
  particles.push({
   x:Math.random()*canvas.width,
