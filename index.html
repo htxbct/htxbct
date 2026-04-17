@@ -240,6 +240,63 @@ nav a{
  max-width:600px;
 }
 
+/* ===== CHAT THƯỜNG NHẬT ===== */
+.chat-box{
+ max-width:700px;
+ margin:auto;
+ display:flex;
+ flex-direction:column;
+ gap:20px;
+ padding:20px;
+}
+
+.chat-date{
+ text-align:center;
+ opacity:0.6;
+ font-size:14px;
+}
+
+.msg{
+ display:flex;
+ opacity:0;
+ transform:translateY(20px);
+ animation:chatFade 0.6s forwards;
+}
+
+.msg.left{justify-content:flex-start}
+.msg.right{justify-content:flex-end}
+
+.bubble{
+ max-width:75%;
+ padding:12px 16px;
+ border-radius:18px;
+ line-height:1.6;
+ white-space:pre-line;
+ backdrop-filter:blur(10px);
+}
+
+.msg.left .bubble{
+ background:rgba(255,255,255,0.1);
+ border-top-left-radius:5px;
+}
+
+.msg.right .bubble{
+ background:rgba(0,255,180,0.25);
+ border-top-right-radius:5px;
+}
+
+.msg:nth-child(2){animation-delay:0.3s}
+.msg:nth-child(3){animation-delay:0.6s}
+.msg:nth-child(4){animation-delay:0.9s}
+.msg:nth-child(5){animation-delay:1.2s}
+
+@keyframes chatFade{
+ to{
+  opacity:1;
+  transform:translateY(0);
+ }
+}
+
 /* CANVAS */
 canvas{
  position:fixed;
@@ -248,13 +305,12 @@ canvas{
  pointer-events:none;
 }
 
-/* ===== MOBILE: 2 CARD / HÀNG ===== */
+/* MOBILE */
 @media (max-width:768px){
  .members{
   gap:12px;
   padding:0 10px;
  }
-
  .card{
   width:calc(50% - 10px);
  }
@@ -275,6 +331,7 @@ canvas{
  <a onclick="goPage('home')">Trang chủ</a>
  <a onclick="goPage('origin')">Sơ nguyên</a>
  <a onclick="goPage('members')">Thành viên</a>
+ <a onclick="goPage('daily')">Thường Nhật</a>
 </nav>
 
 <div id="home" class="page">
@@ -352,6 +409,48 @@ canvas{
    <div class="skeleton"></div>
    <img src="./images/nv6.jpg" loading="lazy">
    <div class="info"><b>Tham Nguyên</b><p>Im on my way</p></div>
+  </div>
+
+ </div>
+</div>
+
+<!-- ===== THƯỜNG NHẬT ===== -->
+<div id="daily" class="page">
+ <div class="chat-box">
+
+  <div class="chat-date">Ngày 17/4</div>
+
+  <div class="msg left">
+   <div class="bubble">
+Ngày 17/4
+Hôm nay Lý huynh và Nguyên Nguyên cãi nhau rồi
+Ta không hiểu bọn họ đang giỡn cái gì cả
+Người lớn tuổi thật là khó hiểu mà.
+   </div>
+  </div>
+
+  <div class="msg right">
+   <div class="bubble">
+Lý huynh nói ta bắt nạt huynh ấy
+Sao huynh ấy lại hiểu lầm ta như vậy
+Ta chỉ ghét người bự con hơn mình thôi.
+   </div>
+  </div>
+
+  <div class="msg left">
+   <div class="bubble">
+Nguyên Nguyên đau răng rồi
+Bảo đi khám mà không đi
+Đáng đời hắn.
+   </div>
+  </div>
+
+  <div class="msg right">
+   <div class="bubble">
+Tiểu muội nói ta tìm trai cho nàng
+Ta không đủ đẹp trai hả?
+Có nên kick nó luôn không ta.
+   </div>
   </div>
 
  </div>
@@ -476,7 +575,7 @@ document.querySelectorAll('.card').forEach(card=>{
  }
 })
 
-/* CANVAS TỐI ƯU */
+/* CANVAS */
 const canvas=document.getElementById("particle")
 const ctx=canvas.getContext("2d")
 
