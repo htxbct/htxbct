@@ -235,27 +235,77 @@ canvas{
  <a onclick="goPage('members')">Thành viên</a>
 </nav>
 
-<!-- 🔥 BỎ active mặc định -->
 <div id="home" class="page">
  <div class="home-box" id="homeText"></div>
 </div>
 
 <div id="origin" class="page">
  <div class="origin-list">
+
   <div class="speech">
    <p>"Mười năm trước may mắn đã gặp các vị<br><br>
    Mười năm sau may mắn được gặp các vị<br><br>
    Đều là vinh hạnh của ta!"</p>
    <span>— Sở Dĩ</span>
   </div>
+
+  <div class="speech">
+   <p>"Ta muốn đi rất nhiều nơi, muốn gặp rất nhiều người<br><br>
+   Ta muốn băng qua trăm biển, vượt qua trăm núi<br><br>
+   Ta muốn sống cho trọn đời này!"</p>
+   <span>— Tạ Thừa Cảnh</span>
+  </div>
+
+  <div class="speech">
+   <p>"Hoa đào không biết nói, lòng người không thể hiểu<br><br>
+   Nếu được quay lại một lần...<br><br>
+   Liệu ta có còn là chính ta?"</p>
+   <span>— Đề Quý Khôi</span>
+  </div>
+
+  <div class="speech">
+   <p>"Các vị ca ca, các vị tỷ tỷ<br><br>
+   Ngày sau biển rộng sông dài<br><br>
+   Mọi người nhất định phải sống thật tốt đó!"</p>
+   <span>— Hoàng Mân Chi</span>
+  </div>
+
+ </div>
 </div>
 
 <div id="members" class="page">
  <div class="members">
+
   <div class="card" onclick="openDetail(1)">
    <img src="./images/nv1.jpg">
-   <div class="info"><b>Sở Dĩ</b></div>
+   <div class="info"><b>Sở Dĩ</b><p>Thân ở hồng trần</p></div>
   </div>
+
+  <div class="card" onclick="openDetail(2)">
+   <img src="./images/nv2.jpg">
+   <div class="info"><b>Tạ Thừa Cảnh</b><p>Tùy tâm sở dục</p></div>
+  </div>
+
+  <div class="card" onclick="openDetail(3)">
+   <img src="./images/nv3.jpg">
+   <div class="info"><b>Đề Quý Khôi</b><p>Thương nhau mà sống</p></div>
+  </div>
+
+  <div class="card" onclick="openDetail(4)">
+   <img src="./images/nv4.jpg">
+   <div class="info"><b>Hoàng Mân Chi</b><p>Lan tâm tuệ cốt</p></div>
+  </div>
+
+  <div class="card" onclick="openDetail(5)">
+   <img src="./images/nv5.jpg">
+   <div class="info"><b>Lý Thừa Đức</b><p>326 anh có vợ rồi</p></div>
+  </div>
+
+  <div class="card" onclick="openDetail(6)">
+   <img src="./images/nv6.jpg">
+   <div class="info"><b>Tham Nguyên</b><p>Haha</p></div>
+  </div>
+
  </div>
 </div>
 
@@ -306,7 +356,14 @@ function goPage(page){
 /* DETAIL */
 function openDetail(id){
  let data={
- 1:{name:"Sở Dĩ",text:"Ta là Sở Dĩ..."}
+ 1:{name:"Sở Dĩ",text:"Ta là Sở Dĩ, thân ở hồng trần. Ở GHA này ta luôn sống theo ý mình. Dù có trăm người chê hay vạn người ghét ta cũng không để trong lòng."},
+ 2:{name:"Tạ Thừa Cảnh",text:`Ta là Tạ Thừa Cảnh. Liệu các vị đã từng nghe:
+"Trăm năm còn có gì đâu,
+Chẳng qua một nắm cỏ khâu xanh rì."`},
+ 3:{name:"Đề Quý Khôi",text:"Tại hạ Đề Quý Khôi, diện kiến nhân gian!"},
+ 4:{name:"Hoàng Mân Chi",text:"Tiểu nữ Hoàng Mân Chi, diện kiến nhân gian!"},
+ 5:{name:"Lý Thừa Đức",text:"Năm sau cưới vợ, đến chung vui nhé?"},
+ 6:{name:"Tham Nguyên",text:"Tại hạ Tham Nguyên!"}
  }
 
  let m=data[id]
@@ -333,7 +390,7 @@ window.onpopstate=function(e){
  }else show("home")
 }
 
-/* 🔥 FIX LOAD F5 */
+/* FIX LOAD F5 */
 window.addEventListener("load", () => {
  let hash = location.hash.replace("#","")
 
